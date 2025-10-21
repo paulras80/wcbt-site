@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>West Coast Biotherapeutics (WCBT) Careers | Los Angeles</title>
+    <meta name="description" content="Join WCBT’s mission to transform oncology care. Explore careers in R&D, Clinical, Quality/Regulatory, and G&A in Los Angeles." />
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-50 text-gray-900">
+    <div id="root"></div>
+
+    <!-- React & Babel CDNs -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+      const COMPANY = {
+        name: "West Coast Biotherapeutics (WCBT)",
+        site: "https://wcbt.bio",
+        hqCity: "Los Angeles",
+        hqState: "CA",
+        email: "careers@wcbt.bio",
+      };
+
+      const FORM_ACTION = "#"; // TODO: replace with your form endpoint (Formspree/Netlify/Google Forms)
+
+      const DEPARTMENTS = [
+        { id: "research", label: "R&D" },
+        { id: "clinical", label: "Clinical" },
+        { id: "quality", label: "Quality & Regulatory" },
+        { id: "g&a", label: "G&A (Finance/HR/Operations)" },
+      ];
+
+      const JOBS = [
+        {
+          id: "sr-research-assoc-oncology-001",
+          title: "Senior Research Associate, Oncology",
+          department: "research",
+          location: "Los Angeles, CA (Onsite)",
+          employmentType: "FULL_TIME",
+          description:
+            "Support preclinical oncology programs at WCBT, executing in‑vitro assays, cell culture, and molecular biology techniques to advance our lead candidates.",
+          responsibilities: [
+            "Design and execute cell‑based assays; maintain mammalian cell lines",
+            "Run qPCR, Western blot, ELISA; analyze and document results",
+            "Collaborate cross‑functionally with Bioinformatics and In Vivo teams",
+          ],
+          requirements: [
+            "BS/MS in Molecular/Cell Biology or related field",
+            "3+ years relevant bench experience in industry or academia",
+            "Experience with oncology models preferred",
+          ],
+          posted: "2025-10-19",
+          validThrough: "2026-01-31",
+          minSalary: 95000,
+          maxSalary: 120000,
+          currency: "USD",
+        },
+        {
+          id: "qa-manager-gxp-002",
+          title: "Quality Assurance Manager (GxP)",
+          department: "quality",
+          location: "Los Angeles, CA (Hybrid)",
+          employmentType: "FULL_TIME",
+          description:
+            "Own QA systems across GxP activities, including document control, CAPA, change control, training, and audit readiness as we scale to IND/Phase 1.",
+          responsibilities: [
+            "Maintain and improve eQMS; manage SOP lifecycle",
+            "Lead internal/external audits; oversee vendor qualification",
+            "Partner with CMC/Clinical to ensure inspection readiness",
+          ],
+          requirements: [
+            "5+ years QA in biopharma (GxP)",
+            "eQMS (Veeva, MasterControl, or similar)",
+            "Strong knowledge of FDA/ICH guidelines",
+          ],
+          posted: "2025-10-16",
+          validThrough: "2026-01-31",
+          minSalary: 135000,
+          maxSalary: 160000,
+          currency: "USD",
+        },
+        {
+          id: "ap-manager-gna-003",
+          title: "Accounts Payable Manager",
+          department: "g&a",
+          location: "Los Angeles, CA (Hybrid)",
+          employmentType: "FULL_TIME",
+          description:
+            "Lead full‑cycle AP, 3‑way match, and vendor management for a multi‑entity biotech; partner with Controller on close acceleration and cash forecasting.",
+          responsibilities: [
+            "Oversee invoice intake and approval workflows; ACH/check runs",
+            "Own 1099 compliance and vendor onboarding",
+            "Reconcile AP subledger and support audits",
+          ],
+          requirements: [
+            "5+ years AP leadership; life sciences preferred",
+            "ERP expertise (NetSuite or similar)",
+            "Strong controls and process improvement mindset",
+          ],
+          posted: "2025-10-15",
+          validThrough: "2026-01-31",
+          minSalary: 110000,
+          maxSalary: 130000,
+          currency: "USD",
+        },
+      ];
+
+      function CompanyJsonLd() {
+        const data = {
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: COMPANY.name,
+          url: COMPANY.site,
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: COMPANY.hqCity,
+            addressRegion: COMPANY.hqState,
+            addressCountry: "US",
+          },
+          sameAs: [],
+        };
+        return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
+      }
+
+      function JobJsonLd({ job }) {
+        const data = {
+          "@context": "https://schema.org",
+          "@type": "JobPosting",
+          title: job.title,
+          description: job.description,
+          datePosted: job.posted,
+          validThrough: job.validThrough,
+          employmentType: job.employmentType,
+          hiringOrganization: {
+            "@type": "Organization",
+            name: COMPANY.name,
+            sameAs: COMPANY.site,
+          },
+          jobLocation: {
+            "@type": "Place",
+            address: {
+              "@type": "PostalAddress",
+              addressLocality: COMPANY.hqCity,
+              addressRegion: COMPANY.hqState,
+              addressCountry: "US",
+            },
+          },
+          baseSalary: {
+            "@type": "MonetaryAmount",
+            currency: job.currency,
+            value: {
+              "@type": "QuantitativeValue",
+              minValue: job.minSalary,
+              maxValue: job.maxSalary,
+              unitText: "YEAR",
+            },
+          },
+          applicantLocationRequirements: { "@type": "Country", name: "US" },
+        };
+        return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
+      }
+
+      function Salary({ min, max }) {
+        const fmt = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+        return <span className="text-sm text-gray-700">{fmt.format(min)} - {fmt.format(max)} / yr</span>;
+      }
+
+      function App() {
+        const [search, setSearch] = React.useState("");
+        const [dept, setDept] = React.useState("");
+        const [selectedJob, setSelectedJob] = React.useState(null);
+
+        const results = React.useMemo(() => {
+          const q = search.trim().toLowerCase();
+          return JOBS.filter(j => {
+            const deptMatch = dept ? j.department === dept : true;
+            const blob = (j.title + " " + j.location + " " + j.description + " " + j.requirements.join(" ")).toLowerCase();
+            const qMatch = q ? blob.includes(q) : true;
+            return deptMatch && qMatch;
+          });
+        }, [search, dept]);
+
+        React.useEffect(() => {
+          document.title = COMPANY.name + " Careers | Los Angeles";
+        }, []);
+
+        return (
+          <div className="min-h-screen bg-gray-50 text-gray-900">
+            <CompanyJsonLd />
+            <header className="sticky top-0 z-10 bg-white/80 backdrop-blur border-b border-gray-200">
+              <div className="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-2xl bg-gray-900 text-white grid place-items-center font-semibold">WCBT</div>
+                  <div>
+                    <h1 className="text-lg font-semibold leading-tight">{COMPANY.name}</h1>
+                    <p className="text-xs text-gray-600">Advancing precision therapeutics from Los Angeles</p>
+                  </div>
+                </div>
+                <nav className="flex gap-5 text-sm text-gray-700">
+                  <a href="#careers" className="hover:text-gray-900">Careers</a>
+                  <a href="#contact" className="hover:text-gray-900">Contact</a>
+                </nav>
+              </div>
+            </header>
+
+            <section className="mx-auto max-w-6xl px-4 py-10">
+              <div className="rounded-3xl bg-gradient-to-br from-gray-900 to-gray-700 text-white p-8 md:p-12 shadow-xl">
+                <h2 className="text-3xl md:text-4xl font-semibold">Join WCBT’s mission to transform oncology care</h2>
+                <p className="mt-3 max-w-2xl text-white/80">
+                  {COMPANY.name} is a Los Angeles–based biotech developing targeted therapeutics. We hire curious builders across R&D, Clinical, Quality/Reg, and G&A.
+                </p>
+                <div className="mt-6 grid gap-3 md:grid-cols-3">
+                  <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search jobs…" className="w-full rounded-xl bg-white text-gray-900 px-4 py-3 outline-none border border-white/20 focus:border-white/40" />
+                  <select value={dept} onChange={(e) => setDept(e.target.value)} className="w-full rounded-xl bg-white text-gray-900 px-4 py-3 outline-none border border-white/20 focus:border-white/40">
+                    <option value="">All Departments</option>
+                    {DEPARTMENTS.map(d => <option key={d.id} value={d.id}>{d.label}</option>)}
+                  </select>
+                  <button onClick={() => { setSearch(""); setDept(""); }} className="rounded-xl bg-white/10 hover:bg-white/20 px-4 py-3 border border-white/20">Clear Filters</button>
+                </div>
+              </div>
+            </section>
+
+            <section id="careers" className="mx-auto max-w-6xl px-4 pb-20 mt-8">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-medium">Open Roles</h3>
+                <span className="text-sm text-gray-600">{results.length} {results.length === 1 ? "opening" : "openings"}</span>
+              </div>
+              <div className="grid gap-4 md:grid-cols-2">
+                {results.map(job => (
+                  <article key={job.id} className="rounded-2xl bg-white border border-gray-200 p-5 shadow-sm hover:shadow-md transition">
+                    <JobJsonLd job={job} />
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <h4 className="text-xl font-semibold leading-tight">{job.title}</h4>
+                        <p className="text-sm text-gray-700 mt-1">{COMPANY.name}</p>
+                        <p className="text-sm text-gray-600">{job.location}</p>
+                      </div>
+                      <div className="text-right">
+                        <Salary min={job.minSalary} max={job.maxSalary} />
+                        <p className="text-xs text-gray-500 mt-1">Posted {new Date(job.posted).toLocaleDateString()}</p>
+                      </div>
+                    </div>
+                    <p className="mt-3 text-gray-800">{job.description}</p>
+                    <div className="mt-3">
+                      <p className="text-sm font-medium">Top responsibilities</p>
+                      <ul className="mt-1 list-disc pl-5 text-sm text-gray-700 space-y-1">
+                        {job.responsibilities.slice(0,3).map((r, idx) => <li key={idx}>{r}</li>)}
+                      </ul>
+                    </div>
+                    <div className="mt-5 flex items-center gap-3">
+                      <button onClick={() => setSelectedJob(job)} className="rounded-xl bg-gray-900 text-white px-4 py-2 text-sm font-medium hover:bg-black">Apply Now</button>
+                    </div>
+                  </article>
+                ))}
+              </div>
+
+              <div className="mt-8 rounded-2xl bg-white border border-gray-200 p-6">
+                <h4 className="text-lg font-semibold">Don’t see the right role?</h4>
+                <p className="text-gray-700 mt-1">Share your resume and interests—we grow fast and post new roles regularly.</p>
+                <form method="POST" action={FORM_ACTION} className="mt-4 grid gap-3 md:grid-cols-2">
+                  <input name="name" required placeholder="Full name" className="rounded-xl border border-gray-300 px-4 py-3 outline-none focus:ring-2 focus:ring-gray-900/10" />
+                  <input type="email" name="email" required placeholder="Email" className="rounded-xl border border-gray-300 px-4 py-3 outline-none focus:ring-2 focus:ring-gray-900/10" />
+                  <input name="phone" placeholder="Phone (optional)" className="rounded-xl border border-gray-300 px-4 py-3 outline-none focus:ring-2 focus:ring-gray-900/10 md:col-span-2" />
+                  <input type="url" name="linkedin" placeholder="LinkedIn URL (optional)" className="rounded-xl border border-gray-300 px-4 py-3 outline-none focus:ring-2 focus:ring-gray-900/10 md:col-span-2" />
+                  <textarea name="notes" placeholder="Areas of interest, target titles, salary range…" className="rounded-xl border border-gray-300 px-4 py-3 outline-none focus:ring-2 focus:ring-gray-900/10 md:col-span-2" rows="4"></textarea>
+                  <input type="hidden" name="form" value="general-resume-drop" />
+                  <button className="rounded-xl bg-gray-900 text-white px-5 py-3 font-medium hover:bg-black md:col-span-2">Send</button>
+                </form>
+              </div>
+            </section>
+
+            <footer id="contact" className="border-t border-gray-200 bg-white">
+              <div className="mx-auto max-w-6xl px-4 py-8 grid md:grid-cols-3 gap-6 text-sm text-gray-700">
+                <div>
+                  <p className="font-semibold">Contact</p>
+                  <p className="mt-2">{COMPANY.hqCity}, {COMPANY.hqState}</p>
+                  <p>{COMPANY.email}</p>
+                </div>
+                <div>
+                  <p className="font-semibold">Equal Opportunity</p>
+                  <p className="mt-2">WCBT is an equal opportunity employer. We celebrate diversity and are committed to an inclusive workplace.</p>
+                </div>
+                <div>
+                  <p className="font-semibold">Accessibility & Privacy</p>
+                  <p className="mt-2">If you need a reasonable accommodation to apply, contact us at {COMPANY.email}. By applying, you agree to our privacy practices.</p>
+                </div>
+              </div>
+            </footer>
+
+            {selectedJob && (
+              <div className="fixed inset-0 z-20 flex items-center justify-center bg-black/40 p-4" onClick={() => setSelectedJob(null)}>
+                <div className="w-full max-w-2xl rounded-2xl bg-white p-6 shadow-xl" onClick={(e) => e.stopPropagation()}>
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <h4 className="text-xl font-semibold">Apply: {selectedJob.title}</h4>
+                      <p className="text-sm text-gray-700 mt-1">{COMPANY.name}</p>
+                    </div>
+                    <button onClick={() => setSelectedJob(null)} className="rounded-lg border border-gray-300 px-3 py-1 text-sm">Close</button>
+                  </div>
+                  <form method="POST" action={FORM_ACTION} className="mt-4 grid gap-3 md:grid-cols-2">
+                    <input name="name" required placeholder="Full name" className="rounded-xl border border-gray-300 px-4 py-3 outline-none focus:ring-2 focus:ring-gray-900/10" />
+                    <input type="email" name="email" required placeholder="Email" className="rounded-xl border border-gray-300 px-4 py-3 outline-none focus:ring-2 focus:ring-gray-900/10" />
+                    <input name="phone" placeholder="Phone" className="rounded-xl border border-gray-300 px-4 py-3 outline-none focus:ring-2 focus:ring-gray-900/10" />
+                    <input type="url" name="linkedin" placeholder="LinkedIn URL" className="rounded-xl border border-gray-300 px-4 py-3 outline-none focus:ring-2 focus:ring-gray-900/10 md:col-span-2" />
+                    <label className="text-sm text-gray-700 md:col-span-2">Resume (URL or paste)
+                      <textarea name="resume" placeholder="Paste resume text or link to your file" className="mt-1 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:ring-2 focus:ring-gray-900/10" rows="6"></textarea>
+                    </label>
+                    <input type="hidden" name="jobId" value="" />
+                    <input type="hidden" name="form" value="job-application" />
+                    <button className="rounded-xl bg-gray-900 text-white px-5 py-3 font-medium hover:bg-black md:col-span-2">Submit Application</button>
+                  </form>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
